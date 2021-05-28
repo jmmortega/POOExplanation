@@ -4,13 +4,15 @@ using System.Text;
 
 namespace POOExplanation
 {
-    public class Libro
+    public abstract class Libro
     {
         //-->Accessors
         //private
         //protected
         //public
         //internal Ignore
+
+        //namespace
 
         //-->Atributes
         //static
@@ -29,6 +31,8 @@ namespace POOExplanation
 
         }
 
+        public string ISBN { get; set; }
+
 
         private int _pages;
         public int Pages 
@@ -37,9 +41,14 @@ namespace POOExplanation
             
             set
             {
-                if(value != 0 || value > 0)
+                if(value > 0)
                 {
                     _pages = value;
+                }
+                else 
+                {
+                    Encuadernacion = string.Empty;
+                    Console.WriteLine("");
                 }
             }
         }
@@ -73,6 +82,10 @@ namespace POOExplanation
             get;
         }
 
+        //Another way to categorize types of book is with a Enum
+        //public EnumCategory Category { get; set; }
+
+        
         private string _encuadernacion;
         public string Encuadernacion
         {
@@ -80,12 +93,43 @@ namespace POOExplanation
             set;
         }
 
-        public void LeerCapitulo(int capitulo)
-        {
+        public abstract string TypeLiteral { get; }
 
+        
+        public virtual void LeerCapitulo(int capitulo)
+        {
+            Console.WriteLine(Settings.Path);
         }
 
+        protected bool CheckPages(int pages) => _pages > 0;
+
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var comparedBook = (Libro)obj;
+
+            return comparedBook.ISBN == ISBN;
+        }
+
+        /*
+{
+   if(_pages > 0)
+   {
+       return true;
+   }
+   else
+   {
+       return false;
+   }
+}
+*/
+
         public static Libro Empty() => new Libro();
+
+        
 
 
     }
